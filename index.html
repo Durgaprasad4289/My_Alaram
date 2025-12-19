@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALARAM</title>
+    <link rel="stylesheet" href="ALARAM.css">
+</head>
+
+<body>
+
+    <div class="alaram">
+        <div class="p1">
+            <h1>ALARAM PROJECT</h1>
+            <p>A Simple Alaram Clock in <b>HTML CSS & JAVASCRIPT</b> </p>
+            <div class="curr_time"><b id="b"></b></div>
+            <div class="curr_date">
+                <h3 id="h"></h3>
+            </div>
+            <div class="p1-1">
+                <input type="time" id="time">
+                <button id="btn" onclick="startalarm()">Set Alaram</button>
+            </div>
+        </div>
+        <div class="p2">
+            <p id="a1"></p>
+        </div>
+    </div>
+    <audio src="alarm.mp3" id="audio"></audio>
+    <script>
+        let time = document.getElementById("time");
+        let curr_time = document.getElementById("b");
+        let curr_date = document.getElementById("h");
+        setInterval(() => {
+            let d = new Date();
+            curr_time.textContent = d.toLocaleTimeString();
+            curr_date.textContent = d.toLocaleDateString();
+        }, 100);
+        function startalarm() {
+            let  alarams=[];
+            let val = time.value;
+            let audio = document.getElementById("audio");
+            if (!val) {
+                alert("❌ PLZ SELECT THE RIGHT TIME FIRST !!!");
+                return;
+            }
+            alarams.push(`⏰ Alaram rings at ${val} `);
+            for(let i of alarams){
+                document.getElementById("a1").style.display = "block";
+                document.getElementById("a1").textContent=i;
+            }
+            let check = setInterval(() => {
+                let a = new Date();
+                let currtime = a.getHours().toString().padStart(2, '0') + ":" + a.getMinutes().toString().padStart(2, '0');
+                if (currtime === val) {
+                    audio.play();
+                    alert("🚨 Stop Alaram !!!");
+                    clearInterval(check);
+                }
+            }, 1000);
+        }
+        
+    </script>
+</body>
+
+</html>
